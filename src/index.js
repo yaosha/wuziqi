@@ -1,30 +1,19 @@
-import _ from 'lodash';
-import svg from './svg.svg';
+import React from "react";
+import ReactDOM from "react-dom";
+import Game from "./container/Game";
 
-function component() {
-  const element = document.createElement('div');
-  element.innerHTML = _.join(['Hello', 'world'], ' ');
-  element.classList.add('container');
-
-  const myIcon = new Image();
-  myIcon.src = svg;
-  element.appendChild(myIcon);
-
-
-
-  return element;
-
+function App() {
+  return <Game />;
 }
 
-let element = component(); // 当 print.js 改变导致页面重新渲染时，重新获取渲染的元素
-document.body.appendChild(element);
+function render() {
+  ReactDOM.render(<App />, document.getElementById("container"));
+}
 
-document.body.appendChild(component());
 if (module.hot) {
-  module.hot.accept('*', function () {
-    console.log('Accepting the updated module!');
-    document.body.removeChild(element);
-    element = component(); // 重新渲染页面后，component 更新 click 事件处理
-    document.body.appendChild(element);
+  module.hot.accept("./container/Game", function() {
+    render();
   });
 }
+
+render();

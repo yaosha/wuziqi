@@ -1,51 +1,51 @@
-var path = require('path');
-const webpack = require('webpack');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+var path = require("path");
+const webpack = require("webpack");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: ['./src/index.js', 'webpack-hot-middleware/client'],
-    vendors: ['lodash']
+    app: ["./src/index.js", "webpack-hot-middleware/client"]
   },
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/"
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader'],
+        use: ["babel-loader"],
         exclude: /node_modules/
       },
       {
         test: /\.less/,
-        use: ['less-loader']
+        use: ["less-loader"]
       },
       {
         test: /\.sass/,
-        use: ['sass-loader']
+        use: ["sass-loader"]
       },
       {
         test: /\.scss$/,
-        use: ['scss-loader']
+        use: ["scss-loader"]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        use: ["file-loader"]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader']
+        use: ["file-loader"]
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(["dist"]),
     new HTMLWebpackPlugin({
-      title: 'template'
+      title: "五子棋",
+      template: path.resolve(__dirname, "src", "index.html")
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
