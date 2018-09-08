@@ -1,12 +1,11 @@
 .board {
   position: relative;
-  margin-left: 20px;
-  margin-top: 20px;
   border: 1px solid #000;
-  background-color: #eee;
+  background-color: #d2ab8e;
 }
 
 .grid {
+  box-sizing: border-box;
   border: 1px solid #000;
-  display: line-block;
+  display: inline-block;
 }

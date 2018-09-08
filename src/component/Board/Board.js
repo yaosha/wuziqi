@@ -7,15 +7,28 @@ export default class Board extends Component {
     super(props);
   }
 
+  handleClick = side => evt => {
+    const pageX = evt.pageX,
+      pageY = evt.pageY;
+    const x = Math.floor((pageX - 20 + side / 2) / side),
+      y = Math.floor((pageY - 20 + side / 2) / side);
+    if (typeof this.props.onClick === "function") {
+      this.props.onClick({ x, y }, evt);
+    }
+  };
+
   getGrids = (rowCount, colCount) => {
     const { side } = this.props;
     const grids = [];
     for (let i = 0; i < rowCount; i++) {
       const horizon = [];
       for (let j = 0; j < colCount; j++) {
-        const side = `${side}px`;
         horizon.push(
-          <div clssName="grid" style={{ width: side, height: side }} />
+          <div
+            key={`${i}_${j}`}
+            className="grid"
+            style={{ width: `${side}px`, height: `${side}px` }}
+          />
         );
       }
       grids.push(horizon);
@@ -24,9 +37,13 @@ export default class Board extends Component {
   };
 
   render() {
-    const { rowCount, colCount, children } = this.props;
+    const { side, rowCount, colCount, children } = this.props;
+    const style = {
+      width: `${colCount * side}px`,
+      height: `${colCount * side}px`
+    };
     return (
-      <div className="board">
+      <div className="board" style={style} onClick={this.handleClick(side)}>
         {this.getGrids(rowCount, colCount)}
         {children}
       </div>
@@ -37,5 +54,6 @@ export default class Board extends Component {
 Board.propTypes = {
   side: PropTypes.number,
   rowCount: PropTypes.number,
-  colCount: PropTypes.number
+  colCount: PropTypes.number,
+  onClick: PropTypes.func
 };

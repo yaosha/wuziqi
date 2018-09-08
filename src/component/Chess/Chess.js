@@ -9,13 +9,16 @@ export default class Chess extends Component {
   render() {
     const { type, side, x, y } = this.props;
     const style = {
-      backgroundColor: type,
       left: `${x * side - side / 2}px`,
       top: `${y * side - side / 2}px`,
       width: `${side}px`,
       height: `${side}px`
     };
-    return <div className="chess" stype={style} />;
+    return (
+      <div className="chess" style={style}>
+        <div className="chess_inner" style={{ backgroundColor: type }} />
+      </div>
+    );
   }
 }
 

@@ -9,12 +9,13 @@ const compiler = webpack(config);
 
 app.use(
   webpackDevMiddleware(compiler, {
-    publicPath: config.output.publicPath
+    publicPath: config.output.publicPath,
+    writeToDisk: true
   })
 );
 
 app.use(webpackHotMiddleware(compiler));
 
-app.listen(3000, function() {
-  console.log("app listening on port 3000!\n");
+app.listen(9000, function() {
+  console.log("app listening on port 9000!\n");
 });
