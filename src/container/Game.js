@@ -33,7 +33,7 @@ export default class Game extends Component {
           enable: false
         },
         () => {
-          this.engine.next(newChesses, chess => {
+          this.engine.next(newChesses, { type: "black", x, y }, chess => {
             this.setState({
               chesses: [...newChesses, chess],
               enable: true
