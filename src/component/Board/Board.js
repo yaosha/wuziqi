@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 // import Grid from '../Grid';
 
 export default class Board extends Component {
@@ -12,7 +12,7 @@ export default class Board extends Component {
       pageY = evt.pageY;
     const x = Math.floor((pageX - 20 + side / 2) / side),
       y = Math.floor((pageY - 20 + side / 2) / side);
-    if (typeof this.props.onClick === "function") {
+    if (typeof this.props.onClick === 'function') {
       this.props.onClick({ x, y }, evt);
     }
   };

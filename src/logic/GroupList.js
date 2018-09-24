@@ -48,12 +48,12 @@ export default class GroupList {
         prevCalcY,
         nextCalcX,
         nextCalcY
-      } = CALC_POSITION[key];
+      } = CALC_POSITION[DIRECTION[key]];
       this.addGroupsByDirection(chesses, {
-          x,
-          y,
-          type
-        },
+        x,
+        y,
+        type
+      },
         prevCalcX,
         prevCalcY,
         nextCalcX,
@@ -64,10 +64,10 @@ export default class GroupList {
   }
 
   addGroupsByDirection = (chesses, {
-      x,
-      y,
-      type
-    },
+    x,
+    y,
+    type
+  },
     prevCalcX,
     prevCalcY,
     nextCalcX,
@@ -98,10 +98,10 @@ export default class GroupList {
   }
 
   addCombinableChesses = (combinableChesses, chesses, {
-      x,
-      y,
-      type
-    },
+    x,
+    y,
+    type
+  },
     xCalc, yCalc, isBefore
   ) => {
     let canContain = true;
@@ -139,7 +139,41 @@ export default class GroupList {
 
   sort = (a, b) => (a.y - b.y) === 0 ? a.x - b.x : a.y - b.y;
 
-  getNextChess = (oppositeGroups) => {
+  getNextChess = (oppositeGroups, type) => {
+    let chess = null;
 
+    for (let i = 4; i > 0; i--) {
+      chess = this.getPossibleChessInGroup(oppositeGroups, i, type);
+      if (chess) {
+        break;
+      }
+    }
+    if (!chess) {
+      let x = Math.round(Math.random() * this.colCount);
+      let y = Math.round(Math.random() * this.rowCount);
+      chess = {
+        x,
+        y,
+        type
+      };
+    }
+
+    return chess;
+  }
+
+  getPossibleChessInGroup = (oppositeGroups, realCount, type) => {
+    let chess = null;
+
+    let subGroup = this.groups.find(group => group.realCount === realCount);
+    if (subGroup) {
+      chess = subGroup.group.find(chess => chess.type === CHESS_TYPE.NONE);
+    }
+
+    let oppositeSubGroup = oppositeGroups.groups.find(group => group.realCount === realCount);
+    if (oppositeSubGroup) {
+      chess = oppositeSubGroup.group.find(chess => chess.type === CHESS_TYPE.NONE);
+    }
+    if (chess) { chess.type = type; }
+    return chess;
   }
 }

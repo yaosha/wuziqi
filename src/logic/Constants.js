@@ -6,9 +6,9 @@ const DIRECTION = {
 };
 
 const CHESS_TYPE = {
-  WHITE: 0,
-  BLACK: 1,
-  NONE: 2
+  WHITE: 'white',
+  BLACK: 'black',
+  NONE: 'none'
 };
 
 const CALC_POSITION = {};
