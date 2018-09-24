@@ -25,29 +25,85 @@ const orientations = {
   }
 };
 export default class Engine {
-  constructor({ rowCount, colCount, type }) {
+  constructor({
+    rowCount,
+    colCount,
+    type
+  }) {
     this.rowCount = rowCount;
     this.colCount = colCount;
     this.type = type;
     this.chesses = [];
     this.groups = {
       white: {
-        horizontal: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-        vertical: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-        leftDiagonal: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-        rightDiagonal: { 1: [], 2: [], 3: [], 4: [], 5: [] }
+        horizontal: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        },
+        vertical: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        },
+        leftDiagonal: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        },
+        rightDiagonal: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        }
       },
       black: {
-        horizontal: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-        vertical: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-        leftDiagonal: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-        rightDiagonal: { 1: [], 2: [], 3: [], 4: [], 5: [] }
+        horizontal: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        },
+        vertical: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        },
+        leftDiagonal: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        },
+        rightDiagonal: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: []
+        }
       }
     };
   }
 
   findSuccessiveGroup = (chess, xCalc, yCalc) => {
-    let { type, x, y } = chess;
+    let {
+      type,
+      x,
+      y
+    } = chess;
     let isSame,
       group = [];
     do {
@@ -55,7 +111,11 @@ export default class Engine {
       y = yCalc(y);
       isSame = this.exist(x, y, type);
       if (isSame) {
-        group.push({ x: moveX, y, type });
+        group.push({
+          x: moveX,
+          y,
+          type
+        });
       }
     } while (isSame);
     group = group.sort(this.sort);
@@ -98,13 +158,22 @@ export default class Engine {
 
   next = (chesses, currentChess, callback) => {
     this.chesses = chesses.sort(this.sort);
-    const { type, x, y } = currentChess;
+    const {
+      type,
+      x,
+      y
+    } = currentChess;
     const group = this.groups[type];
     Object.keys(group).forEach(orientation => {
       const orientationGroup = group[orientation];
       const currentGroup = [];
       currentGroup.push(currentChess);
-      const { prevCalcX, prevCalcY, nextCalcX, nextCalcY } = orientations[
+      const {
+        prevCalcX,
+        prevCalcY,
+        nextCalcX,
+        nextCalcY
+      } = orientations[
         orientation
       ];
       this.refreshGroup(
@@ -122,7 +191,13 @@ export default class Engine {
       }
     });
 
-    const mergeGroups = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+    const mergeGroups = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: []
+    };
 
     Object.keys(this.groups[this.type]).forEach(orientation => {
       const orientationGroup = this.groups[this.type][orientation];
@@ -131,14 +206,20 @@ export default class Engine {
     });
 
     for (
-      let i = 0, horizontalGroup = this.groups[this.type]["horizontal"][4];
-      i < horizontalGroup.length;
-      i++
+      let i = 0, horizontalGroup = this.groups[this.type]["horizontal"][4]; i < horizontalGroup.length; i++
     ) {
-      let { type, x, y } = horizontalGroup[i][0];
+      let {
+        type,
+        x,
+        y
+      } = horizontalGroup[i][0];
       let isContain = this.contain(x - 1, y);
       if (!isContain) {
-        callback({ type, x: x - 1, y }, type === "white" ? "白子赢" : "黑子赢");
+        callback({
+          type,
+          x: x - 1,
+          y
+        }, type === "white" ? "白子赢" : "黑子赢");
         return;
       }
       type = horizontalGroup[i][3].type;
@@ -146,7 +227,11 @@ export default class Engine {
       y = horizontalGroup[i][3].y;
       isContain = this.contain(x + 1, y);
       if (!isContain) {
-        callback({ type, x: x + 1, y }, type === "white" ? "白子赢" : "黑子赢");
+        callback({
+          type,
+          x: x + 1,
+          y
+        }, type === "white" ? "白子赢" : "黑子赢");
         return;
       }
     }
@@ -174,8 +259,20 @@ export default class Engine {
     // const { type, x, y } = currentChess;
 
     const mergeGroups = {
-      white: { 1: [], 2: [], 3: [], 4: [], 5: [] },
-      black: { 1: [], 2: [], 3: [], 4: [], 5: [] }
+      white: {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: []
+      },
+      black: {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: []
+      }
     };
     Object.keys(this.groups).forEach(type => {
       Object.keys(this.groups[type]).forEach(key => {
@@ -188,8 +285,7 @@ export default class Engine {
       callback(null, "白子赢");
     } else if (mergeGroups.white[5].length === 1) {
       callback(null, "黑子赢");
-    } else {
-    }
+    } else {}
 
     callback({
       type: this.type,
@@ -199,7 +295,11 @@ export default class Engine {
   };
 
   divide = chess => {
-    let { type, x, y } = chess;
+    let {
+      type,
+      x,
+      y
+    } = chess;
     Object.keys(orientations).forEach(key => {
       const orientGroup = this.groups[type][key];
       const addedChesses = Object.keys(orientGroup).reduce(
@@ -213,19 +313,29 @@ export default class Engine {
         let successive = true,
           group = [];
         group.push(chess);
-        const { xCalc, yCalc } = orientations[key];
+        const {
+          xCalc,
+          yCalc
+        } = orientations[key];
         while (successive) {
           x = xCalc(x);
           y = yCalc(y);
           const state = this.exist(x, y, type);
           if (state) {
-            group.push({ x, y, type });
+            group.push({
+              x,
+              y,
+              type
+            });
           } else {
             successive = false;
           }
         }
 
-        orientGroup[group.length].push({ group, dead: false });
+        orientGroup[group.length].push({
+          group,
+          dead: false
+        });
       }
     });
   };
