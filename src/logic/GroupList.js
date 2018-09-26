@@ -153,13 +153,21 @@ export default class GroupList {
 
     let subGroup = this.groups.find(group => group.realCount === realCount);
     if (subGroup) {
-      chess = { ...subGroup.group.find(item => item.type === CHESS_TYPE.NONE) };
+      chess = {
+        ...subGroup.group.find((item, index) => item.type === CHESS_TYPE.NONE
+          && ((index < 4 && subGroup.group[index + 1].type !== CHESS_TYPE.NONE)
+            || (index > 0 && subGroup.group[index - 1].type !== CHESS_TYPE.NONE)))
+      };
     }
 
     if (!chess) {
       let oppositeSubGroup = oppositeGroups.groups.find(group => group.realCount === realCount);
       if (oppositeSubGroup) {
-        chess = { ...oppositeSubGroup.group.find(item => item.type === CHESS_TYPE.NONE) };
+        chess = {
+          ...oppositeSubGroup.group.find((item, index) => item.type === CHESS_TYPE.NONE
+            && ((index < 4 && oppositeSubGroup.group[index + 1].type !== CHESS_TYPE.NONE)
+              || (index > 0 && oppositeSubGroup.group[index - 1].type !== CHESS_TYPE.NONE)))
+        };
       }
     }
     if (chess) { chess.type = type; }
