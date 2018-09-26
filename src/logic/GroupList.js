@@ -151,6 +151,39 @@ export default class GroupList {
   getPossibleChessInGroup = (oppositeGroups, realCount, type) => {
     let chess = null;
 
+    if (realCount !== 3) {
+      chess = this.findCommonChess(oppositeGroups, realCount, type);
+    } else {
+      let subGroup = this.groups.find(group => group.realCount === realCount
+        && group.group[0].type === CHESS_TYPE.NONE
+        && group.group[4].type === CHESS_TYPE.NONE);
+      if (subGroup) {
+        chess = {
+          ...subGroup.group[0]
+        };
+      }
+
+      if (!chess) {
+        let oppositeSubGroup = this.groups.find(group => group.realCount === realCount
+          && group.group[0].type === CHESS_TYPE.NONE
+          && group.group[4].type === CHESS_TYPE.NONE);
+        if (oppositeSubGroup) {
+          chess = {
+            ...oppositeSubGroup.group[0]
+          };
+        }
+      }
+
+      if (!chess) {
+        chess = this.findCommonChess(oppositeGroups, realCount, type);
+      }
+    }
+    if (chess) { chess.type = type; }
+    return chess;
+  }
+
+  findCommonChess = (oppositeGroups, realCount, type) => {
+    let chess = null;
     let subGroup = this.groups.find(group => group.realCount === realCount);
     if (subGroup) {
       chess = {

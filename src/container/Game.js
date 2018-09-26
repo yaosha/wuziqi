@@ -60,10 +60,14 @@ export default class Game extends Component {
 
           this.setState({
             isWin,
-            chesses: [...newChesses, nextChess],
             enable: false,
             winnerType
           });
+          if (nextChess) {
+            this.setState({
+              chesses: [...newChesses, nextChess]
+            });
+          }
         } else {
           this.setState({
             chesses: [...newChesses, nextChess],
