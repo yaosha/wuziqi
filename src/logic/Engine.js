@@ -32,12 +32,12 @@ export default class Engine {
 
     const nextChess = this.groups[this.engineType].getNextChess(this.groups[this.oppositeType], this.engineType);
 
+    result.nextChess = nextChess;
     this.operationAfterChessPlayed(result, chesses, nextChess);
     if (result.isWin) {
       return result;
     }
 
-    result.nextChess = nextChess;
     return result;
   }
 

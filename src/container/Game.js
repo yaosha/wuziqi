@@ -60,6 +60,7 @@ export default class Game extends Component {
 
           this.setState({
             isWin,
+            chesses: [...newChesses, nextChess],
             enable: false,
             winnerType
           });
