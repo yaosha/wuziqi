@@ -33,7 +33,7 @@ export default class GroupList {
     this.groups = this.groups.filter(({
       group
     }) => group.filter(chess => chess.type === CHESS_TYPE.NONE).reduce(((accu, chess) =>
-      accu && chess.x !== x && chess.y !== y
+      accu && !(chess.x === x && chess.y === y)
     ), true));
   }
 
@@ -53,13 +53,7 @@ export default class GroupList {
         x,
         y,
         type
-      },
-        prevCalcX,
-        prevCalcY,
-        nextCalcX,
-        nextCalcY,
-        key
-      );
+      }, prevCalcX, prevCalcY, nextCalcX, nextCalcY, key);
     });
   }
 
@@ -67,13 +61,7 @@ export default class GroupList {
     x,
     y,
     type
-  },
-    prevCalcX,
-    prevCalcY,
-    nextCalcX,
-    nextCalcY,
-    direction
-  ) => {
+  }, prevCalcX, prevCalcY, nextCalcX, nextCalcY, direction) => {
     const combinableChesses = [new Chess(type, x, y)];
     this.addCombinableChesses(combinableChesses, chesses, {
       x,
@@ -94,6 +82,7 @@ export default class GroupList {
         }
         this.groups.push(group);
       }
+      this.groups = this.groups.filter(({ realCount }) => realCount > 0);
     }
   }
 
@@ -101,9 +90,7 @@ export default class GroupList {
     x,
     y,
     type
-  },
-    xCalc, yCalc, isBefore
-  ) => {
+  }, xCalc, yCalc, isBefore) => {
     let canContain = true;
     while (canContain) {
       x = xCalc(x);
@@ -166,12 +153,14 @@ export default class GroupList {
 
     let subGroup = this.groups.find(group => group.realCount === realCount);
     if (subGroup) {
-      chess = subGroup.group.find(chess => chess.type === CHESS_TYPE.NONE);
+      chess = { ...subGroup.group.find(item => item.type === CHESS_TYPE.NONE) };
     }
 
-    let oppositeSubGroup = oppositeGroups.groups.find(group => group.realCount === realCount);
-    if (oppositeSubGroup) {
-      chess = oppositeSubGroup.group.find(chess => chess.type === CHESS_TYPE.NONE);
+    if (!chess) {
+      let oppositeSubGroup = oppositeGroups.groups.find(group => group.realCount === realCount);
+      if (oppositeSubGroup) {
+        chess = { ...oppositeSubGroup.group.find(item => item.type === CHESS_TYPE.NONE) };
+      }
     }
     if (chess) { chess.type = type; }
     return chess;
