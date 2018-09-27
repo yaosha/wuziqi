@@ -164,7 +164,7 @@ export default class GroupList {
       }
 
       if (!chess) {
-        let oppositeSubGroup = this.groups.find(group => group.realCount === realCount
+        let oppositeSubGroup = oppositeGroups.groups.find(group => group.realCount === realCount
           && group.group[0].type === CHESS_TYPE.NONE
           && group.group[4].type === CHESS_TYPE.NONE);
         if (oppositeSubGroup) {
