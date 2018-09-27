@@ -1,0 +1,1 @@
+.board{background-color:#d2ab8e;position:relative}.board,.grid{border:1px solid #000}.grid{box-sizing:border-box;display:inline-block}.chess{padding:5px;position:absolute}.chess_inner{border-radius:50%;height:30px;width:30px}.game{background-color:#eee;padding:20px}
